@@ -1,0 +1,13 @@
+* text=auto
+*.uasset binary
+*.umap binary
+*.jpg binary
+*.png binary
+*.tga binary
+*.jar binary
+*.ps1 text eol=crlf
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.py text eol=lf
+*.md text eol=lf
+gradlew text eol=lf

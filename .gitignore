@@ -1,0 +1,36 @@
+# Generated output and local tools
+/builds/
+/private/
+/submission/
+/tools/temurin21/
+**/.gradle/
+**/.idea/
+**/.vs/
+**/.kotlin/
+**/__pycache__/
+**/local.properties
+**/local.properties.*.bak
+**/*.iml
+android/**/build/
+unreal/**/Binaries/
+unreal/**/Intermediate/
+unreal/**/Saved/
+unreal/**/DerivedDataCache/
+unreal/**/Tests/out/
+**/Config/Android/AndroidEngine.ini
+**/DefaultEditorPerProjectUserSettings.ini
+# APK belongs in GitHub Releases; AAR is rebuilt from source.
+*.apk
+*.aab
+*.aar
+*.jks
+*.keystore
+*.p12
+*.pem
+*.key
+release-signing.json
+*.log
+*.sln
+*.vcxproj*
+*.pdb
+*.so

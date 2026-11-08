@@ -1,0 +1,159 @@
+{
+  "date": "2026-11-08",
+  "artifact": {
+    "name": "BEYOND_PHYSICS_release.apk",
+    "bytes": 121751742,
+    "sha256": "2ba0f6ca2c93408d07b6d83c72e65c3c213899d5f663260b1264cbf07ee47c00",
+    "package": "com.beyondphysics.simulator",
+    "version_name": "0.1.0",
+    "version_code": 1,
+    "unreal_configuration": "Shipping",
+    "distribution": true,
+    "bridge_configuration": "Release",
+    "debuggable": false,
+    "min_sdk": 28,
+    "target_sdk": 36,
+    "abis": [
+      "x86_64"
+    ],
+    "signature_v2_verified": true,
+    "signer_certificate_sha256": "177ecc0f423d109885c8773c366c4d6a2c112695e4849d3dbcfd4f30f63f8c0c",
+    "zipalign_16k_page_check": true,
+    "apk_and_embedded_obb_crc_ok": true,
+    "private_config_values_absent": true
+  },
+  "environment": {
+    "pleos": "Connect v2.1.0",
+    "android_api": 34,
+    "real_vehicle_tested": false,
+    "display": "infotainment",
+    "instrument_cluster_tested": false
+  },
+  "runtime_smoke": {
+    "baseline": {
+      "light": {
+        "mode": "On",
+        "color": "#00e5ff",
+        "brightness_pct": 100
+      },
+      "fan": 3,
+      "driver": 22.0,
+      "passenger": 22.0,
+      "gear": "Park"
+    },
+    "history": [
+      {
+        "label": "01-straight-applied",
+        "light": {
+          "mode": "On",
+          "color": "#349bbe",
+          "brightness_pct": 20
+        },
+        "fan": 2,
+        "driver": 21.0,
+        "passenger": 22.0,
+        "gear": "Park"
+      },
+      {
+        "label": "01-straight-auto-acceleration",
+        "light": {
+          "mode": "On",
+          "color": "#659b9f",
+          "brightness_pct": 20
+        },
+        "fan": 2,
+        "driver": 21.0,
+        "passenger": 22.0,
+        "gear": "Park"
+      },
+      {
+        "label": "01-straight-brake-steer",
+        "light": {
+          "mode": "On",
+          "color": "#369cbc",
+          "brightness_pct": 20
+        },
+        "fan": 2,
+        "driver": 21.0,
+        "passenger": 22.0,
+        "gear": "Park"
+      },
+      {
+        "label": "02-ramp-applied",
+        "light": {
+          "mode": "On",
+          "color": "#359bbd",
+          "brightness_pct": 20
+        },
+        "fan": 2,
+        "driver": 21.0,
+        "passenger": 22.0,
+        "gear": "Park"
+      },
+      {
+        "label": "02-settings-restored",
+        "light": {
+          "mode": "On",
+          "color": "#00e5ff",
+          "brightness_pct": 100
+        },
+        "fan": 3,
+        "driver": 22.0,
+        "passenger": 22.0,
+        "gear": "Park"
+      },
+      {
+        "label": "03-fog-applied",
+        "light": {
+          "mode": "On",
+          "color": "#a3b6cd",
+          "brightness_pct": 20
+        },
+        "fan": 1,
+        "driver": 22.0,
+        "passenger": 22.0,
+        "gear": "Park"
+      },
+      {
+        "label": "03-drive-blocked-restored",
+        "light": {
+          "mode": "On",
+          "color": "#00e5ff",
+          "brightness_pct": 100
+        },
+        "fan": 3,
+        "driver": 22.0,
+        "passenger": 22.0,
+        "gear": "Drive"
+      },
+      {
+        "label": "03-park-restart-required",
+        "light": {
+          "mode": "On",
+          "color": "#00e5ff",
+          "brightness_pct": 100
+        },
+        "fan": 3,
+        "driver": 22.0,
+        "passenger": 22.0,
+        "gear": "Park"
+      },
+      {
+        "label": "03-final-effects-off",
+        "light": {
+          "mode": "On",
+          "color": "#00e5ff",
+          "brightness_pct": 100
+        },
+        "fan": 3,
+        "driver": 22.0,
+        "passenger": 22.0,
+        "gear": "Park"
+      }
+    ]
+  },
+  "release_issue_fixed": "Gson TypeToken hierarchy/Signature stripped by R8; preserve consumer rules and retest real SDK",
+  "audio_check": "Audio focus and started 48kHz OpenSL ES track; no new listening-quality assessment",
+  "uploaded": false,
+  "git_repository_created_by_agent": false
+}

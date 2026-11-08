@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root xmlns:android="http://schemas.android.com/apk/res/android">
+    <androidManifestUpdates>
+        <addPermission android:name="pleos.car.permission.CAR_DRIVE" />
+        <addPermission android:name="android.car.permission.CAR_POWERTRAIN" />
+        <addPermission android:name="pleos.car.permission.CAR_LIGHTS" />
+        <addPermission android:name="pleos.car.permission.CONTROL_CAR_LIGHTS" />
+        <addPermission android:name="pleos.car.permission.CAR_CLIMATE" />
+        <addPermission android:name="pleos.car.permission.CONTROL_CAR_CLIMATE" />
+        <addElements tag="application">
+            <uses-library android:name="android.car" android:required="false" />
+        </addElements>
+    </androidManifestUpdates>
+    <gradleCopies>
+        <copyFile src="$S(PluginDir)/pleosbridge.aar" dst="$S(BuildDir)/gradle/app/libs/pleosbridge.aar" />
+    </gradleCopies>
+    <baseBuildGradleAdditions><insert><![CDATA[
+allprojects { repositories { maven { url 'https://nexus-playground.pleos.ai/repository/maven-releases/' } } }
+]]></insert></baseBuildGradleAdditions>
+    <buildGradleAdditions><insert><![CDATA[
+android { useLibrary 'android.car' }
+dependencies {
+    implementation files('libs/pleosbridge.aar')
+    implementation 'ai.pleos.playground:Vehicle:2.3.2'
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib:2.2.10'
+}
+]]></insert></buildGradleAdditions>
+    <gameActivityImportAdditions><insert>import com.beyondphysics.pleos.PleosRuntime;</insert></gameActivityImportAdditions>
+    <gameActivityClassAdditions><insert><![CDATA[
+    public String AndroidThunkJava_PleosSnapshot() { return PleosRuntime.snapshot(); }
+    public String AndroidThunkJava_PleosFeedback(String command) { return PleosRuntime.feedback(command); }
+    public boolean AndroidThunkJava_BPInitializeAudioFocus() {
+        // UE creates/tracks this request when its first native listener registers,
+        // but ignores the initial result. Reuse that request to report grant/denial.
+        if (audioFocusRequest == null || android.os.Build.VERSION.SDK_INT < 26) return false;
+        android.media.AudioManager manager = (android.media.AudioManager)getSystemService(android.content.Context.AUDIO_SERVICE);
+        return manager != null && manager.requestAudioFocus(audioFocusRequest) == android.media.AudioManager.AUDIOFOCUS_REQUEST_GRANTED;
+    }
+]]></insert></gameActivityClassAdditions>
+    <gameActivityOnResumeAdditions><insert>PleosRuntime.start(this);</insert></gameActivityOnResumeAdditions>
+    <gameActivityOnPauseAdditions><insert>PleosRuntime.stop();</insert></gameActivityOnPauseAdditions>
+    <proguardAdditions><insert>-keep class com.beyondphysics.pleos.** { *; }</insert></proguardAdditions>
+</root>
