@@ -153,7 +153,5 @@
     ]
   },
   "release_issue_fixed": "Gson TypeToken hierarchy/Signature stripped by R8; preserve consumer rules and retest real SDK",
-  "audio_check": "Audio focus and started 48kHz OpenSL ES track; no new listening-quality assessment",
-  "uploaded": false,
-  "git_repository_created_by_agent": false
+  "audio_check": "Audio focus and started 48kHz OpenSL ES track; no new listening-quality assessment"
 }

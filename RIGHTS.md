@@ -1,5 +1,5 @@
-# 권리와 이용 범위
+# 권리 안내
 
-프로젝트의 자체 코드·문서·자산에 별도 오픈소스 라이선스를 부여하지 않았다. 제출용 소스 공개가 제3자의 자유로운 재배포·상업 이용을 허락한다는 뜻은 아니다. 제작자가 공개 라이선스를 선택할 경우 그 적용 범위를 별도로 정해야 한다.
+프로젝트의 자체 코드·문서·자산에는 별도 오픈소스 라이선스가 지정되어 있지 않다.
 
-Unreal Engine 및 Epic 템플릿 예제 자산은 Epic의 약관, Poly Haven 텍스처는 CC0, Android/Pleos/Gradle/Kotlin 등 외부 의존성은 각 제공자의 라이선스가 적용된다. 이 문서는 제3자 자료의 기존 권리를 변경하지 않는다. THIRD_PARTY_NOTICES.md를 참조한다.
+Unreal Engine과 Epic 템플릿은 Epic의 약관, Poly Haven 텍스처는 CC0, 외부 소프트웨어 의존성은 각 제공자의 라이선스를 따른다. 구성 요소별 출처는 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)에 정리했다.

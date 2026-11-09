@@ -1,66 +1,116 @@
-# 제출 Release 빌드와 실행
+# 소스 빌드와 Unreal 편집
 
-## 구성
+## 개발 환경
 
-최종 게임은 Unreal이 만드는 하나의 APK다. Kotlin은 프론트엔드가 아니라 Pleos Vehicle SDK·AAOS 상태·선택형 차량 효과를 C++에 연결하는 Android 라이브러리(AAR)다. Android Studio의 별도 진단 앱은 제출 APK가 아니다.
+| 구성 요소 | 버전 / 설정 |
+|---|---|
+|Unreal Engine|5.8 · Android 플랫폼과 x86_64 Shipping 바이너리 포함|
+|Windows C++|Visual Studio 2022 C++ 워크로드 · Windows SDK|
+|Android SDK / Build Tools|API 36 / 36.0.0|
+|Android NDK|27.2.12479018|
+|Unreal 패키징용 Java|JDK 21|
+|브리지 Gradle|Wrapper 9.6.0 · daemon JVM 설정 25|
+|Vehicle SDK|2.3.2|
+|Kotlin 표준 라이브러리|2.2.10|
+|Android 출력|x86_64 · ETC2 · Shipping / Distribution|
 
-- UE 5.8 설치본의 Android x86_64 Shipping 구성.
-- Android SDK36, Build Tools36.0.0, NDK27.2.12479018, JDK21.
-- 브리지의 Gradle9.6은 `gradle-daemon-jvm.properties`에 따라 별도 JDK25를 자동 조달할 수 있다. 최초 빌드는 인터넷이 필요하다. Unreal Android 패키징에 사용하는 JDK21과 구분한다.
-- Windows C++ 도구: Visual Studio2022 C++ 워크로드와 Windows SDK. 처음 빌드하려면 UE용 구성도 설치한다.
-- Vehicle SDK2.3.2는 공개 Pleos Maven 저장소에서 Gradle로 받는다. Gradle/JDK/SDK/엔진을 소스 저장소에 올리지 않는다.
-- 검증 대상은 **Pleos Connect v2.1.0 / Android14 API34 / x86_64 에뮬레이터**다. ARM64 실차 및 운전대 뒤 계기판 배포는 검증하지 않았다. 실차 작동을 활성화하지 않는다.
+Gradle Wrapper는 설정된 JVM과 의존성을 자동으로 받으므로 최초 빌드에는 인터넷 연결이 필요하다. Vehicle SDK 저장소는 `android/settings.gradle.kts`와 `Pleos_UPL.xml`에 선언돼 있다.
 
-## 새 소스에서 빌드
+## 저장소 받기
 
-저장소 루트에서 PowerShell을 연다. Java 경로는 본인의 JDK21 설치 경로로 바꾼다. 처음에는 Unreal Editor를 닫는다.
+```powershell
+git clone https://github.com/sanghyeok1000/hyundai-project.git
+cd hyundai-project
+```
+
+## Unreal에서 실행
+
+`unreal/BeyondPhysics/BeyondPhysics.uproject`를 Unreal Engine 5.8로 연다. 첫 실행에서 C++ 모듈 빌드가 필요하다. 프로젝트를 연 뒤 Play로 실행한다. 기본 레벨은 `IceTrackDrive`다.
+
+| PC 입력 | 기능 |
+|---|---|
+|A / D|좌 / 우 조향|
+|S|제동|
+|1 / 2|두 얼음 맵에서 일반 노면 / 저마찰 노면 비교|
+|R|재시작|
+|M|맵 전환|
+|F|효과 설정 열기 / 적용 후 재시작|
+|L / H / K|설정창에서 조명 / 공조 / 사운드 전환|
+|V|카메라 전환|
+
+PC에서는 차량 조명·공조 출력을 프리뷰하며, Pleos SDK의 실제 장치 연동은 에뮬레이터 APK에서 실행한다.
+
+## Android Release 패키징
+
+Unreal Editor에서 변경한 맵과 자산을 저장하고 에디터를 닫는다. JDK 21을 `JAVA_HOME`으로 설정한 뒤 저장소 루트에서 다음을 실행한다.
 
 ```powershell
 & '.\unreal\BeyondPhysics\Scripts\package_submission_release.ps1' `
   -EngineDir 'C:\Program Files\Epic Games\UE_5.8' `
-  -AndroidSdk "$env:LOCALAPPDATA\Android\Sdk" `
-  -JavaHome 'C:\본인JDK21설치경로' `
-  -SigningDirectory '.\private\signing' `
-  -OutputDirectory '.\submission\release'
+  -AndroidSdk (Join-Path $env:LOCALAPPDATA 'Android\Sdk') `
+  -JavaHome $env:JAVA_HOME
 ```
 
-스크립트는 Release AAR → C++ Shipping → 세 맵 cook → Distribution APK 서명 → SHA256 순서로 처리한다. 개인 서명 키가 없으면 최초 한 번 생성한다. **기존 APK의 업데이트는 같은 키가 필요**하므로 자신의 `private/signing/`을 별도 안전한 곳에 백업한다. 키/비밀번호 파일을 GitHub에 올리지 않는다. 공개 소스에는 제작자의 서명 키가 포함되지 않아 다른 사람이 새로 빌드한 APK는 제작자 APK의 업데이트로 설치되지 않는다.
+설치 위치가 다르면 `EngineDir`, `AndroidSdk`, `JavaHome` 인수에 해당 경로를 지정한다. 스크립트는 다음 순서로 실행한다.
 
-서명 설정은 빌드 중에만 `Config/Android/AndroidEngine.ini`에 작성하고 완료/오류 후 원래 상태로 복원한다. 강제 전원 종료/프로세스 강제 종료 시 임시 파일이 남을 수 있으므로 Git에서 항상 제외한다. 생성된 `Intermediate/`의 Gradle 파일과 빌드 로그도 공개하지 않는다. `.gitignore`가 방어하지만 개인 파일을 검토한 뒤 커밋한다.
+1. Kotlin 브리지의 Release AAR 생성.
+2. Unreal C++ Shipping 빌드.
+3. 직선·램프·안개 맵 cook 및 게임 데이터 패키징.
+4. 전용 키로 Android Distribution APK 서명.
+5. APK 서명·파일 정렬·디버깅 비활성 검사와 SHA256 생성.
 
-빌드 산출물: `submission/release/BEYOND_PHYSICS_release.apk`, `SHA256SUMS.txt`. 상세 빌드 로그는 `builds/release-logs/`이며 공개 사본에는 포함하지 않는다.
+| 출력 | 위치 |
+|---|---|
+|Release APK|`submission/release/BEYOND_PHYSICS_release.apk`|
+|체크섬|`submission/release/SHA256SUMS.txt`|
+|상세 빌드 로그|`builds/release-logs/`|
+|로컬 서명 자료|`private/signing/`|
 
-## 실행
+서명 키는 최초 빌드 때 생성한다. 업데이트 APK에는 같은 키를 사용하고 배포 버전에 맞춰 `Config/DefaultEngine.ini`의 `StoreVersion`을 증가시킨다. 제작자의 서명 키는 저장소에 포함하지 않는다.
 
-1. Android Studio Device Manager에서 **Pleos Connect v2.1.0**을 시작한다.
-2. SDK의 platform-tools에서 다음을 실행한다. PATH에 adb가 없다면 `adb`를 SDK의 전체 경로로 바꾼다.
+소스와 브리지만 변경하고 기존 cook 결과를 재사용할 때는 `-SkipCook`을 추가할 수 있다. 맵·재질·텍스처·패키징 설정을 변경한 경우 전체 cook으로 빌드한다.
+
+## 수정 위치
+
+아래 경로는 `unreal/BeyondPhysics/`를 기준으로 한다.
+
+| 대상 | 위치 |
+|---|---|
+|차량 힘·슬립·적분|`Source/BeyondPhysics/Physics/VehicleModel.cpp`|
+|질량·관성·마찰 등 파라미터|`Physics/VehicleTypes.h`, `Driving/DrivingPawn.h`|
+|안개 초기 속도·목표 속도·장애물|`Physics/FogHighway.h`|
+|핸들각·전륜각|`Physics/SteeringGeometry.h`|
+|램프 형상|`Physics/VirtualRamp.h`, `SourceArt/Ramp/road.csv`|
+|자동 가속|`Driving/AutoDriveInput.h`, `Driving/RampAutoDrive.h`, `Physics/FogHighway.h`|
+|입력·맵 전환·카메라|`Driving/DrivingPawn.cpp`|
+|HUD와 버튼|`UI/DrivingHUD.cpp`|
+|감각 효과|`Feedback/FeedbackPolicy.cpp`, `Feedback/DrivingAudioComponent.cpp`|
+|그래픽|`Content/Maps/`, `Content/Driving/`, `Content/Vehicles/`|
+
+`Physics/`, `Driving/`, `UI/`, `Feedback/` 축약 경로는 `Source/BeyondPhysics/` 아래다. 차량 SDK 원본은 저장소 루트의 `android/pleosbridge/src/main/java/com/beyondphysics/pleos/`에 있다.
+
+`.umap`과 `.uasset`은 Unreal Editor에서 편집한다. 도로 메시를 다시 생성할 때는 `Scripts/`의 생성 코드와 `Physics/VirtualRamp.h`의 형상을 함께 확인한다. `Intermediate/Android`는 빌드 과정에서 생성되는 파일이다.
+
+## Release의 SDK 보존 규칙
+
+SDK capability 응답은 Gson의 제네릭 타입 정보를 사용한다. `android/pleosbridge/consumer-rules.pro`는 R8에서 `Signature`와 `TypeToken` 계층, Vehicle SDK 및 JNI 진입점을 보존한다. 관련 규칙을 제거하면 Release에서 조향·브레이크 capability 읽기가 실패할 수 있다.
+
+## 계산 검사 실행
+
+Visual Studio 2022 Community의 기본 설치 경로를 사용하는 검사 스크립트가 `Tests/`에 있다. 다른 에디션은 각 스크립트의 `vcvars64.bat` 경로를 조정한다.
 
 ```powershell
-adb devices
-adb install -r '.\submission\release\BEYOND_PHYSICS_release.apk'
-adb forward tcp:8088 tcp:8088
-adb shell am start -n com.beyondphysics.simulator/com.epicgames.unreal.GameActivity
+& '.\unreal\BeyondPhysics\Tests\run-model-tests.cmd'
+& '.\unreal\BeyondPhysics\Tests\run-contact-patch-checks.cmd'
+& '.\unreal\BeyondPhysics\Tests\run-feedback-checks.cmd'
 ```
 
-기존 개발 APK와 서명 키가 다르면 `INSTALL_FAILED_UPDATE_INCOMPATIBLE`이 나온다. 이는 잘못된 APK라는 뜻이 아니다. 개발 앱에 보관할 데이터가 있는지 확인한 뒤 기존 앱을 지우고 설치하거나 새 Pleos 가상기기를 사용한다. 앱 삭제는 앱의 저장 데이터를 지우므로 자동으로 수행하는 설치 스크립트는 제공하지 않는다.
+브리지 단위 검사는 JDK와 Android SDK 설정 후 실행한다.
 
-3. [Virtual Console](http://127.0.0.1:8088/)을 열어 둔다. 콘솔 연결은 가상 차량 입력 공급에 필요하다.
-4. 차량을 **P / 실제 차량 속도0 / accelerator0**으로 둔다. 게임 속도는 실제 차량 속도와 별개다. 조향과 Brake로 가상 차량을 조작한다. 가속페달을 밟을 필요가 없다.
-5. MAP 버튼으로 세 맵을 순환하고 RESTART로 재시작한다. P 해제/입력 단절/백그라운드 이후에는 안전 상태를 회복하고 RESTART한다.
-6. EFFECTS에서 AMBIENT LIGHT/GENTLE CLIMATE를 선택하고 APPLY AND RESTART한다. 조명·공조는 기본 OFF, 소리는 ON이다. SDK 지원·원래 상태에 따라 공조가 제한될 수 있으며 상태창의 APPLIED/OFF/UNSUPPORTED/ERROR/RESTORING을 확인한다. [상세 감각 효과 안내](MAP_FEEDBACK.ko.md).
+```powershell
+Push-Location android
+.\gradlew.bat :pleosbridge:testDebugUnitTest
+Pop-Location
+```
 
-Android Studio에서는 `File → Profile or Debug APK`로 **이번 Release APK**를 새로 선택해 설치/실행할 수 있다. Release는 디버깅 불가이며 개발용 콘솔 명령·run-as·중단점으로 검사하는 대상이 아니다. 코드 수정은 원본 Unreal C++/Kotlin에서 하고 APK를 다시 만든다. 예전에 가져온 APK 사본은 자동 갱신되지 않는다.
-
-## 수정할 원본
-
-| 목적 | 파일/폴더 |
-|---|---|
-| 힘·슬립·요 운동·수치적분 | `unreal/BeyondPhysics/Source/BeyondPhysics/Physics/VehicleModel.cpp`, `VehicleTypes.h` |
-| 안개 속도·장애물·조향비 | `Physics/FogHighway.h`, `Physics/SteeringGeometry.h` |
-| 입력·자동 가속·일시정지·카메라 | `Driving/DrivingPawn.cpp`, `Driving/PleosVehicleInput.cpp` |
-| 조명/공조/사운드 표현 정책 | `Feedback/FeedbackPolicy.cpp`, `Feedback/DrivingAudioComponent.cpp` |
-| 차량 SDK/설정 복원 | `android/pleosbridge/src/main/java/com/beyondphysics/pleos/` |
-| 화면과 버튼 | `UI/DrivingHUD.cpp` |
-| 실제 레벨·차량·재질·산·조명 | `unreal/BeyondPhysics/Content/Maps/`, `Content/Driving/`, `Content/Vehicles/` |
-
-그래픽은 `BeyondPhysics.uproject`를 Unreal5.8로 열어 수정한다. 공개 사본은 편집 보조용 MCP 플러그인 의존성을 제거했으며 MCP가 없어도 열고 빌드할 수 있다. `.umap/.uasset`은 Unreal Editor에서 편집하는 바이너리 자산이고 `.cpp/.h`는 C++ 원본이다. `Scripts/*.py`는 과거 생성/정리 도구이므로 실행 전 경로와 덮어쓰기 동작을 읽는다. 맵을 다시 생성하는 작업과 기존 맵을 편집하는 작업을 구분한다.
+계산 검사는 Unreal과 독립된 C++ 코어를 검증한다. APK의 SDK 연결과 화면·장치 동작은 [실행 안내](RUNNING.ko.md)의 절차로 별도 확인한다.

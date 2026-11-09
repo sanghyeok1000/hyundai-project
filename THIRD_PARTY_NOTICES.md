@@ -1,28 +1,36 @@
-# Third-party notices and asset provenance
+# Third-party notices
 
-## Unreal Engine / Epic Games
+## Unreal Engine · Epic Games
 
-Unreal Engine5.8 is installed separately and is not included as engine source or editor binaries in this repository. The compiled APK incorporates Unreal runtime object code. Unreal Engine is a trademark or registered trademark of Epic Games, Inc. in the United States of America and elsewhere. Unreal Engine, Copyright 1998–2026, Epic Games, Inc. All rights reserved.
+Engine: Unreal Engine 5.8.
 
-`unreal/BeyondPhysics/Content/Vehicles/SportsCar/` was copied from the installed Epic `Templates/TemplateResources/Standard/Vehicles/Content/SportsCar` vehicle template, not an unidentified third-party vehicle download. Epic's Unreal EULA defines template/sample content as Examples and addresses their distribution in section5(b). These assets remain subject to Epic's terms; no CC0/MIT claim is made for them. Built-in Engine materials, basic meshes and fonts are referenced through the installed engine and are not copied as an Engine source tree.
+Unreal Engine is a trademark or registered trademark of Epic Games, Inc. in the United States of America and elsewhere. Unreal Engine, Copyright 1998–2026, Epic Games, Inc. All rights reserved.
 
-Terms: https://www.unrealengine.com/eula/unreal
+The vehicle assets in `Content/Vehicles/SportsCar/` originate from Epic's installed vehicle template at `Templates/TemplateResources/Standard/Vehicles/Content/SportsCar`. Their use and distribution follow the Unreal Engine EULA, including the provisions for Examples. Built-in engine materials, basic meshes and fonts are referenced from the installed engine.
+
+[Unreal Engine EULA](https://www.unrealengine.com/eula/unreal).
 
 ## Poly Haven
 
-Rock Boulder Cracked, 2K diffuse / DirectX normal / roughness: https://polyhaven.com/a/rock_boulder_cracked
+| Asset | Source | License |
+|---|---|---|
+|Rock Boulder Cracked · 2K diffuse / DirectX normal / roughness|[Poly Haven](https://polyhaven.com/a/rock_boulder_cracked)|[CC0](https://polyhaven.com/license)|
+
 Authors: Dario Barresi (processing), Dimitrios Savva (photography).
-CC0: https://polyhaven.com/license
-Original source records and textures: `unreal/BeyondPhysics/SourceArt/AlpineV2/ASSET_SOURCES.md` and adjacent files. Used in `Content/Driving/Textures/T_AlpineRock_*`. Poly Haven branding and preview images are not bundled as game assets.
 
-Mountains, ramps, lane markings, lamp assemblies, older ice source textures and synthesized driving sounds are project-generated. Mountain shapes are procedural and are not survey data; the ramp is not a replica of a named real road.
+Source files and provenance: [`SourceArt/AlpineV2/`](unreal/BeyondPhysics/SourceArt/AlpineV2). Imported textures: `Content/Driving/Textures/T_AlpineRock_*`.
 
-## Build/runtime dependencies
+The mountain geometry, ramp geometry, lane markings, lamp assemblies, ice source textures and synthesized driving sounds are project-generated assets.
 
-- Pleos Vehicle SDK2.3.2: resolved by Gradle from https://nexus-playground.pleos.ai/repository/maven-releases/ . No extracted SDK source files, SDK credentials or standalone SDK JARs/AARs are included in the source handoff. SDK usage follows the provider's terms; no new license is granted here.
-- Android SDK / NDK / AAOS `android.car`: installed separately under their respective Android terms.
-- Kotlin standard library2.2.10: JetBrains, Apache License2.0, https://github.com/JetBrains/kotlin/blob/master/license/LICENSE.txt . Resolved dependency, not vendored source.
-- Gradle Wrapper: included to reproduce the build, Gradle Inc., Apache License2.0, https://github.com/gradle/gradle/blob/master/LICENSE . The distribution is downloaded by the wrapper.
-- JUnit4.13.2: test-only dependency, Eclipse Public License1.0, https://junit.org/junit4/license.html . Not an application feature.
+## Software dependencies
 
-No Fab marketplace asset pack or installed MCP editor plugin is being redistributed as plugin source/binaries. Third-party terms apply independently of this project's RIGHTS.md. Consult the linked primary sources for the full terms.
+| Component | Use | Terms |
+|---|---|---|
+|Pleos Vehicle SDK2.3.2|Vehicle inputs and cabin outputs|Pleos provider terms; resolved from the [Pleos Maven repository](https://nexus-playground.pleos.ai/repository/maven-releases/)|
+|Android SDK / NDK / AAOS|Platform, toolchain and vehicle state|Android provider terms|
+|Kotlin standard library2.2.10|Android bridge runtime|[Apache License2.0](https://github.com/JetBrains/kotlin/blob/master/license/LICENSE.txt)|
+|Google Gson|SDK capability serialization|[Apache License2.0](https://github.com/google/gson/blob/main/LICENSE)|
+|Gradle Wrapper|Reproducible library build|[Gradle license](docs/licenses/Gradle-LICENSE.txt)|
+|JUnit4.13.2|Unit tests|[Eclipse Public License1.0](https://junit.org/junit4/license.html)|
+
+The engine, editor plugins and Android toolchains are installed separately. Runtime dependencies are resolved by the build configuration. SDK source extraction and local build caches are excluded from this repository.
