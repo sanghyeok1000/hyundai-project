@@ -22,7 +22,7 @@ Unreal 하위 경로는 `unreal/BeyondPhysics/`를 기준으로 한다. `.umap`,
 
 ## 배포 파일
 
-APK·체크섬·릴리스 노트는 [Releases](https://github.com/sanghyeok1000/hyundai-project/releases)에 둔다. SDK·JDK·NDK·Unreal Engine은 각 제공자의 설치 절차를 사용한다.
+APK·체크섬·릴리스 노트는 [Releases](https://github.com/sanghyeok1000/hyundai-project/releases/tag/v0.1.0-prototype)에 둔다. SDK·JDK·NDK·Unreal Engine은 각 제공자의 설치 절차를 사용한다.
 
 ## 저장소에서 제외하는 파일
 

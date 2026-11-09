@@ -61,7 +61,7 @@ Unreal Editor에서 변경한 맵과 자산을 저장하고 에디터를 닫는�
 
 | 출력 | 위치 |
 |---|---|
-|Release APK|`submission/release/BEYOND_PHYSICS_release.apk`|
+|Release APK|`submission/release/beyond_physics_BEYOND_PHYSICS_release.apk`|
 |체크섬|`submission/release/SHA256SUMS.txt`|
 |상세 빌드 로그|`builds/release-logs/`|
 |로컬 서명 자료|`private/signing/`|

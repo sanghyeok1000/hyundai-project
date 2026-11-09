@@ -8,10 +8,11 @@ BEYOND PHYSICS는 조향과 브레이크 조작을 가상 차량에 연결하고
 
 | 항목 | 내용 |
 |---|---|
+|제작명|beyond physics|
 |버전|v0.1.0 · Android Shipping Release|
 |실행 환경|Pleos Connect Emulator v2.1.0 · Android 14 / API 34 · x86_64|
 |표시 화면|Pleos 인포테인먼트 앱 영역|
-|배포 파일|[GitHub Releases](https://github.com/sanghyeok1000/hyundai-project/releases) · `BEYOND_PHYSICS_release.apk`|
+|배포 파일|[GitHub Releases](https://github.com/sanghyeok1000/hyundai-project/releases/tag/v0.1.0-prototype) · `beyond_physics_BEYOND_PHYSICS_release.apk`|
 |실행 안내|[APK 설치와 조작](docs/RUNNING.ko.md)|
 |소스 빌드|[빌드 환경과 절차](docs/RELEASE_BUILD.ko.md)|
 
@@ -73,12 +74,12 @@ APK 실행에는 Unreal Engine이나 C++ 빌드 도구가 필요하지 않다. *
 
 ### 1. APK 설치
 
-[Releases](https://github.com/sanghyeok1000/hyundai-project/releases)에서 `BEYOND_PHYSICS_release.apk`를 내려받는다. Android Studio의 **Device Manager**에서 Pleos Connect v2.1.0을 시작한다. APK가 있는 폴더에서 PowerShell을 열고 다음을 실행한다.
+[Releases](https://github.com/sanghyeok1000/hyundai-project/releases/tag/v0.1.0-prototype)에서 `beyond_physics_BEYOND_PHYSICS_release.apk`를 내려받는다. Android Studio의 **Device Manager**에서 Pleos Connect v2.1.0을 시작한다. APK가 있는 폴더에서 PowerShell을 열고 다음을 실행한다.
 
 ```powershell
 $adb = Join-Path $env:LOCALAPPDATA 'Android\Sdk\platform-tools\adb.exe'
 & $adb devices
-& $adb install -r '.\BEYOND_PHYSICS_release.apk'
+& $adb install -r '.\beyond_physics_BEYOND_PHYSICS_release.apk'
 & $adb forward tcp:8088 tcp:8088
 ```
 

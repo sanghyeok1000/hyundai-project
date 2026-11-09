@@ -1,7 +1,7 @@
 {
   "date": "2026-11-08",
   "artifact": {
-    "name": "BEYOND_PHYSICS_release.apk",
+    "name": "beyond_physics_BEYOND_PHYSICS_release.apk",
     "bytes": 121751742,
     "sha256": "2ba0f6ca2c93408d07b6d83c72e65c3c213899d5f663260b1264cbf07ee47c00",
     "package": "com.beyondphysics.simulator",

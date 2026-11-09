@@ -93,7 +93,7 @@ if ($buildExit -ne 0) { throw "Shipping build failed ($buildExit). See $buildLog
 $apk = Get-ChildItem -LiteralPath (Join-Path $OutputDirectory 'archive') -Filter '*.apk' -File -Recurse |
     Where-Object { $_.Name -notmatch 'AFS|universal' } | Select-Object -First 1
 if (!$apk) { throw 'UAT finished without an APK.' }
-$destination = Join-Path $OutputDirectory 'BEYOND_PHYSICS_release.apk'
+$destination = Join-Path $OutputDirectory 'beyond_physics_BEYOND_PHYSICS_release.apk'
 Copy-Item -LiteralPath $apk.FullName -Destination $destination
 $buildTools = Join-Path $AndroidSdk 'build-tools\36.0.0'
 & "$buildTools\apksigner.bat" verify --verbose --print-certs $destination *> (Join-Path $logDir 'signature-verification.txt')
@@ -104,7 +104,7 @@ $badging = & "$buildTools\aapt2.exe" dump badging $destination
 if ($LASTEXITCODE -ne 0 -or ($badging -match 'application-debuggable')) { throw 'APK is invalid or still debuggable.' }
 $badging | Set-Content -LiteralPath (Join-Path $logDir 'apk-badging.txt') -Encoding UTF8
 $hash = (Get-FileHash -LiteralPath $destination -Algorithm SHA256).Hash.ToLowerInvariant()
-"$hash  BEYOND_PHYSICS_release.apk" | Set-Content -LiteralPath (Join-Path $OutputDirectory 'SHA256SUMS.txt') -Encoding ASCII
+"$hash  beyond_physics_BEYOND_PHYSICS_release.apk" | Set-Content -LiteralPath (Join-Path $OutputDirectory 'SHA256SUMS.txt') -Encoding ASCII
 Write-Output "Shipping APK: $destination"
 Write-Output "SHA256: $hash"
 Write-Output "Private signing key (never upload): $SigningDirectory"

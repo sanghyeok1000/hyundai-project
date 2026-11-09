@@ -1,6 +1,6 @@
 # Release 검증 결과
 
-빌드·실행 검증일: **2026-11-08**. 대상은 v0.1.0의 `BEYOND_PHYSICS_release.apk`다.
+빌드·실행 검증일: **2026-11-08**. 대상은 v0.1.0의 `beyond_physics_BEYOND_PHYSICS_release.apk`다.
 
 ## 배포 파일
 

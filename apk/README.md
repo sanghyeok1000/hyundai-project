@@ -1,10 +1,10 @@
 # Android Release APK
 
-설치 파일은 [GitHub Releases](https://github.com/sanghyeok1000/hyundai-project/releases)에서 배포한다.
+설치 파일은 [GitHub Releases](https://github.com/sanghyeok1000/hyundai-project/releases/tag/v0.1.0-prototype)에서 배포한다.
 
 | 파일 | 내용 |
 |---|---|
-|`BEYOND_PHYSICS_release.apk`|세 맵을 포함한 Android Shipping Release|
+|`beyond_physics_BEYOND_PHYSICS_release.apk`|세 맵을 포함한 Android Shipping Release|
 |`SHA256SUMS.txt`|APK SHA256|
 |`RELEASE_NOTES.ko.md`|버전별 기능과 실행 환경|
 

@@ -15,10 +15,10 @@
 
 ## 1. APK와 기기 연결
 
-[GitHub Releases](https://github.com/sanghyeok1000/hyundai-project/releases)에서 `BEYOND_PHYSICS_release.apk`와 `SHA256SUMS.txt`를 받는다. APK가 있는 폴더에서 PowerShell을 연다.
+[GitHub Releases](https://github.com/sanghyeok1000/hyundai-project/releases/tag/v0.1.0-prototype)에서 `beyond_physics_BEYOND_PHYSICS_release.apk`와 `SHA256SUMS.txt`를 받는다. APK가 있는 폴더에서 PowerShell을 연다.
 
 ```powershell
-Get-FileHash '.\BEYOND_PHYSICS_release.apk' -Algorithm SHA256
+Get-FileHash '.\beyond_physics_BEYOND_PHYSICS_release.apk' -Algorithm SHA256
 $adb = Join-Path $env:LOCALAPPDATA 'Android\Sdk\platform-tools\adb.exe'
 & $adb devices
 ```
@@ -28,7 +28,7 @@ SHA256 결과는 `SHA256SUMS.txt` 및 [Release 검증](RELEASE_VERIFICATION.ko.m
 ## 2. 설치와 Virtual Console
 
 ```powershell
-& $adb install -r '.\BEYOND_PHYSICS_release.apk'
+& $adb install -r '.\beyond_physics_BEYOND_PHYSICS_release.apk'
 & $adb forward tcp:8088 tcp:8088
 ```
 
@@ -86,7 +86,7 @@ P 해제·UX 제한·신호 끊김·앱 이탈 때 주행과 효과를 중단한
 |---|---|
 |`adb.exe`를 찾지 못함|Android Studio의 SDK Manager에서 Android SDK Location을 확인하고 `$adb`를 그 경로의 `platform-tools\adb.exe`로 지정한다.|
 |`adb devices`가 비어 있음|Pleos AVD 부팅 완료와 Platform-Tools 설치를 확인한다.|
-|`more than one device/emulator`|`adb devices`에 나온 대상 일련번호를 `-s` 뒤에 지정한다. 예: `& $adb -s emulator-5554 install -r '.\BEYOND_PHYSICS_release.apk'`. 이후 모든 명령에도 같은 대상을 지정한다.|
+|`more than one device/emulator`|`adb devices`에 나온 대상 일련번호를 `-s` 뒤에 지정한다. 예: `& $adb -s emulator-5554 install -r '.\beyond_physics_BEYOND_PHYSICS_release.apk'`. 이후 모든 명령에도 같은 대상을 지정한다.|
 |`INSTALL_FAILED_NO_MATCHING_ABIS`|x86_64 Pleos AVD인지 확인한다.|
 |`INSTALL_FAILED_UPDATE_INCOMPATIBLE`|기존 앱과 서명이 다르다. 새 Pleos AVD에 설치하거나 필요한 데이터를 보관한 뒤 기존 앱을 제거하고 설치한다.|
 |`INSTALL_FAILED_VERSION_DOWNGRADE`|더 높은 versionCode의 앱이 설치돼 있다. 새 AVD에 설치하거나 기존 앱 버전을 확인한다.|
